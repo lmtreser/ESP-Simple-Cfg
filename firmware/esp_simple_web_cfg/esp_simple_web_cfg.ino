@@ -27,7 +27,6 @@ void handleRoot() {
 
     delay(1000);
     WiFi.softAPdisconnect(true);  // Desconectar el modo AP
-    WiFi.mode(WIFI_STA);          // Configurar como modo STATION
     wifiConnect();                // Conectar a WiFi
   }
   server.send(200, "text/html", htmlConfig);
@@ -58,10 +57,11 @@ void wifiAP() {
 // Conectar a la red WiFi
 void wifiConnect() {
 
+  WiFi.mode(WIFI_STA);
   Serial.println("Ejecutando en modo STA");
 
   if (buttonState) {
-    Serial.print("Conectado con el SSID: "  + WiFi.SSID());
+    Serial.print("Conectado con el SSID: " + WiFi.SSID());
     Serial.println(" y Password: " + WiFi.psk());
     WiFi.begin();
   } else {
