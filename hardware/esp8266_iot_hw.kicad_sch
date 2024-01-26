@@ -1,0 +1,21 @@
+(kicad_sch (version 20230121) (generator eeschema)
+
+  (uuid ace0786b-d37d-4cab-bd65-f65737e95a89)
+
+  (paper "A4")
+
+  (title_block
+    (title "DISPOSITIVO IOT GENERICO ESP8266")
+    (date "2024-01-26")
+    (rev "1.0")
+    (company "Lucas Martin Treser")
+  )
+
+  (lib_symbols
+  )
+
+
+  (sheet_instances
+    (path "/" (page "1"))
+  )
+)
