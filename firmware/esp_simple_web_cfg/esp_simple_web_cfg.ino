@@ -9,7 +9,7 @@
 
 const char* wifiSsid = "";
 const char* wifiPassword = "";
-const int BOTON = 2;  // D4
+const int BOTON = 5;  // GPIO5 = D1
 bool buttonState;
 
 ESP8266WebServer server{ 80 };
@@ -24,9 +24,10 @@ void handleRoot() {
     Serial.println(wifiSsid);
     Serial.println(wifiPassword);
     server.send(200, "text/html", htmlSuccess);
-    
+
     delay(1000);
     WiFi.softAPdisconnect(true);  // Desconectar el modo AP
+    WiFi.mode(WIFI_STA);          // Configurar como modo STATION
     wifiConnect();                // Conectar a WiFi
   }
   server.send(200, "text/html", htmlConfig);
@@ -57,12 +58,16 @@ void wifiAP() {
 // Conectar a la red WiFi
 void wifiConnect() {
 
-  Serial.println("Ejecutando en modo ST");
-  if (buttonState == LOW) {
-    WiFi.begin(wifiSsid, wifiPassword);
-  } else {
+  Serial.println("Ejecutando en modo STA");
+
+  if (buttonState) {
+    Serial.print("Conectado con el SSID: "  + WiFi.SSID());
+    Serial.println(" y Password: " + WiFi.psk());
     WiFi.begin();
+  } else {
+    WiFi.begin(wifiSsid, wifiPassword);
   }
+
   Serial.print("Conectando a WiFi");
   while (WiFi.status() != WL_CONNECTED) {
     delay(100);
@@ -77,21 +82,21 @@ void setup() {
   pinMode(BOTON, INPUT_PULLUP);
   Serial.begin(9600);
 
-  buttonState = LOW;  //digitalRead(BOTON);
+  buttonState = digitalRead(BOTON);
 
   // De acuerdo al estado del botón de configuración hacer...
-  if (buttonState == LOW) {
-    wifiAP();
-  } else {
+  if (buttonState) {
     wifiConnect();
+  } else {
+    wifiAP();
   }
 }
 
 void loop() {
 
-  if (buttonState == LOW) {
-    server.handleClient();  // Ejecución en modo AP
-  } else {
+  if (buttonState) {
     // Acá tu código una vez establecida la conexión
+  } else {
+    server.handleClient();  // Ejecución en modo AP
   }
 }
