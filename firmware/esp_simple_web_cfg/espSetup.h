@@ -6,6 +6,7 @@
 
 #include <ESP8266WebServer.h>
 #include <ESP8266WiFi.h>
+#include "espEEPROM.h"
 #include "html.h"
 
 // Constantes
@@ -13,19 +14,17 @@ const int MAX_ATTEMPTS = 50;  // Intentos de conexion
 const int RESET = 5;          // Pin de reset de credenciales, GPIO5 = D1
 
 // Credenciales WiFi
-String wifiSsid;
-String wifiPassword;
+String wifiSsid = "ssid";
+String wifiPassword = "password";
 
 ESP8266WebServer server(80);
 
-// Cabeceras de funciones
-void wifiConnect();
-void wifiAP();
-void handleRoot();
-void espSetup();
-void espLoop();
+void wifiConnect();     // Conectar a la red WiFi
+void wifiAP();          // Funcionar en modo AP
+void handleRoot();      // Manejo de las peticiones desde el browser
+void espSetup();        // Configuraciones, incluir dentro de setup()
+void espLoop();         // Funciones auxiliares, incluir dentro de loop()
 
-// Conectar a la red WiFi
 void wifiConnect() {
 
   int attempts = 0;
@@ -59,7 +58,6 @@ void wifiConnect() {
   }
 }
 
-// Funcionar en modo AP
 void wifiAP() {
 
 #if ENABLE_DEBUG
@@ -97,8 +95,8 @@ void handleRoot() {
     wifiSsid = server.arg("ssid").c_str();
     wifiPassword = server.arg("password").c_str();
     server.send(200, "text/html", htmlSuccess);
+    delay(2000);
 
-    delay(1000);
     WiFi.softAPdisconnect(true);  // Desconectar el modo AP
     wifiConnect();                // Conectar a WiFi
   }
