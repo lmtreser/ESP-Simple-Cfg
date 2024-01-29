@@ -4,7 +4,15 @@ Simple portal web para configurar las credenciales de una red WiFi en un disposi
 
 ## Documentación
 
-ToDo...
+#### Constantes
+
+´´´
+const char* wifiSsid = "";
+const char* wifiPassword = "";
+
+const int MAX_ATTEMPTS = 50;
+const int RESET = 5;  // GPIO5 = D1
+´´´
 
 ## Recursos
 
