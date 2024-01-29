@@ -4,30 +4,46 @@ Simple portal web para configurar las credenciales de una red WiFi en un disposi
 
 ## Documentación
 
+Dependencias: #include <ESP8266WebServer.h>
+#include <ESP8266WiFi.h>
+#include <EEPROM.h>
+
+archivo espSetup.h
+
+// 1 para activar el DEBUG por Serial
 #define ENABLE_DEBUG 1
 
 // Credenciales WiFi
 String wifiSsid = "ssid";
 String wifiPassword = "password";
 
-void wifiConnect();
-void wifiAP();
-void handleRoot();
-void espSetup();
-void espLoop();
+void wifiConnect();     // Conectar a la red WiFi
+void wifiAP();          // Funcionar en modo AP
+void handleRoot();      // Manejo de las peticiones desde el browser
+void espSetup();        // Configuraciones, incluir dentro de setup()
+void espLoop();         // Funciones auxiliares, incluir dentro de loop()
 
-#### Constantes
-
+// Constantes
+const int MAX_ATTEMPTS = 50;  // Intentos de conexion
+const int RESET = 5;          // Pin de reset de credenciales, GPIO5 = D1
 ```
-const int MAX_ATTEMPTS = 50;
-const int RESET = 5;  // GPIO5 = D1
 ```
 
 #### Archivo html.h
 
 const char* htmlConfig PROGMEM = R"(
-
 const char* htmlSuccess PROGMEM = R"(
+
+archivo espEEPROM.h
+
+// Direcciones EEPROM a utilizar
+const int SSID_ADDRESS = 0;
+const int PASS_ADDRESS = 100;
+const int CONFIG_RESET = 250;
+
+void writeString();  // Escribir un String en la memoria EEPROM interna
+String readString(); // Leer un String desde la memoria EEPROM interna
+void saveCredentials(); // Almacenar las credenciales WiFi en la memoria EEPROM interna
 
 ## Recursos
 
