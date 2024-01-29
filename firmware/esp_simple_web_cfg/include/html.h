@@ -1,3 +1,11 @@
+/*
+ *  html.h
+ *  Captive Portal Embebido
+ *  created 29 Ene 2024
+ *  Lucas Martin Treser (github: @lmtreser)
+ *
+*/
+
 #ifndef html_h
 #define html_h
 
