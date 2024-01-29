@@ -14,37 +14,58 @@ Para compilar el proyecto son necesarias las siguientes dependencias:
 
 El archivo `espSetup.h"` contiene prácticamente todo el código relacionado a la conectividad WiFi. Cambiando la línea `#define ENABLE_DEBUG 1` es posible activar (o no) el modo de depuración vía el monitor Serial. Por defecto esta activado, con `0` se desactiva.
 
-Se utilizan dos objetos *string* para almacenar las credenciales WiFi: `String wifiSsid` para el SSID y `String wifiPassword` para la contraseña.
+Se utilizan dos objetos *String* para almacenar las credenciales WiFi: `wifiSsid` para el SSID y `wifiPassword` para la contraseña. Además hay definidas dos constantes útiles: `MAX_ATTEMPTS` es un multiplicar de tiempo para dar por finalizado los intentos fallidos de conexión y lanzar el captive portal. `RESET` se refiere al pin GPIO donde se encuentra conectado un pulsador pull-down para forzar el captive portal, por defecto es `GPIO05` o `D1`.
 
 Las funciones incluidas son las siguientes:
 
-- `void wifiConnect()`
-- `void wifiAP()` Funcionamiento en modo Soft-AP
-- `void handleRootGET()` Enviar el Captive Portal
-- `void handleRootPOST()` Manejo de las peticiones desde el browser
-- `void espSetup()` Configuraciones, incluir dentro de setup()
-- `void espLoop()` Funciones auxiliares, incluir dentro de loop()
+- `void wifiConnect()` Maneja la conexión a la red WiFi
+- `void wifiAP()` Maneja el modo Soft-AP
+- `void handleRootGET()` Envía el Captive Portal
+- `void handleRootPOST()` Maneja las peticiones desde el browser
+- `void espSetup()` Configuraciones, incluir dentro de *setup()* en el archivo pricipal
+- `void espLoop()` Funciones auxiliares, incluir dentro de *loop()* en el archivo pricipal
 
-// Constantes
-const int MAX_ATTEMPTS = 50;  // Intentos de conexion
-const int RESET = 5;          // Pin de reset de credenciales, GPIO5 = D1
+El archivo `html.h` contiene el código HTML que se utiliza en el Captive Portal. Actualmente hay dos páginas embebidas:
+
+- `htmlConfig` Captive Portal
+- `htmlSuccess` Mensaje luego de procesar el formulario
+
+El archivo `espEEPROM.h` contiene el código relacionado al manejo de la memoria EEPROM interna que se utilizar para almacenar los datos ingresados de manera permanente. Hay disponibles dos constantes que permiten seleccionar las direcciones de la memoria a utilizar: `SSID_ADDRESS` para el SSID y `PASS_ADDRESS` para la contraseña.
+
+Las funciones incluidas son las siguientes:
+
+- `void writeString(int address, const String &data)` Escribe un *String* en la dirección especificada
+- `String readString(int address)` Devuelve un *String* desde la dirección especificada
+- `void saveCredentials(const String &ssid, const String &password)` Almacena las credenciales WiFi
+
+## Ejemplo de uso
+
+El siguiente código Arduino permite comenzar un proyecto centrándose unicamente en la lógica que deberá llevar adelante el dispositivo, sin preocuparse por la gestión de la conexión.
+
+```Cpp
+#include "espSetup.h"
+
+void setup() {
+  espSetup();
+}
+
+void loop() {
+
+  espLoop();
+
+  /*
+      Acá tu código...
+      Considerar no utizar retardos bloqueantes (delay).
+  */
+}
+
 ```
-```
 
-#### Archivo html.h
+## Hardware
 
-const char* htmlConfig PROGMEM = R"(
-const char* htmlSuccess PROGMEM = R"(
+Descripción de pines del módulo ESP-01 utilizado en este proyecto.
 
-archivo espEEPROM.h
-
-// Direcciones EEPROM a utilizar
-const int SSID_ADDRESS = 0;
-const int PASS_ADDRESS = 100;
-
-void writeString(int address, const String &data);                 // Escribir un String en la memoria EEPROM interna
-String readString(int address);                                    // Leer un String desde la memoria EEPROM interna
-void saveCredentials(const String &ssid, const String &password);  // Almacenar las credenciales WiFi en la memoria EEPROM interna
+![](./docs/ESP-01-pinout-gpio-pin.png)
 
 ## ToDo
 
@@ -59,3 +80,4 @@ void saveCredentials(const String &ssid, const String &password);  // Almacenar 
 - [ESP8266 Pinout Reference: Which GPIO pins should you use?](https://randomnerdtutorials.com/esp8266-pinout-reference-gpios/)
 - [ESP8266 Arduino Core ](https://arduino-esp8266.readthedocs.io/en/2.5.2/reference.html)
 - [ESP8266WiFi library](https://arduino-esp8266.readthedocs.io/en/latest/esp8266wifi/readme.html)
+- [HTML5 y CSS3](https://www.html6.es/)
