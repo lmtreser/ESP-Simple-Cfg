@@ -4,15 +4,30 @@ Simple portal web para configurar las credenciales de una red WiFi en un disposi
 
 ## Documentación
 
+#define ENABLE_DEBUG 1
+
+// Credenciales WiFi
+String wifiSsid = "ssid";
+String wifiPassword = "password";
+
+void wifiConnect();
+void wifiAP();
+void handleRoot();
+void espSetup();
+void espLoop();
+
 #### Constantes
 
 ```
-const char* wifiSsid = "";
-const char* wifiPassword = "";
-
 const int MAX_ATTEMPTS = 50;
 const int RESET = 5;  // GPIO5 = D1
 ```
+
+#### Archivo html.h
+
+const char* htmlConfig PROGMEM = R"(
+
+const char* htmlSuccess PROGMEM = R"(
 
 ## Recursos
 
