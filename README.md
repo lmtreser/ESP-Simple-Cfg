@@ -2,7 +2,15 @@
 
 Simple portal web para configurar las credenciales de una red WiFi en un dispositivo construido alrededor de un ESP8266.
 
-Se trata de un pequeño [Captive Portal](https://en.wikipedia.org/wiki/Captive_portal) que permite configurar las credenciales WiFi (SSID y Password) a un *usuario final* que tenga algún dispositivo IoT basado en el microcontrolador ESP8266.
+Se trata de un pequeño [Captive Portal](https://en.wikipedia.org/wiki/Captive_portal) que permite configurar las credenciales WiFi, tanto el SSID (Service Set IDentifier) como la Password a un *usuario final* que tenga algún dispositivo IoT basado en el microcontrolador ESP8266.
+
+Para acceder al portal hay que conectarse a la red WiFi que genera el ESP8266, por defecto el nombre de la red es `ESP8266 WebServer`, y desde el navegador dirigirse a la IP `192.168.4.1`.
+
+![Captive Portal](./docs/Captive_portal.png)
+
+El funcionamiento del sistema es el siguiente:
+
+![Diagrama de flujo](./docs/flow.png)
 
 ## Documentación
 
@@ -63,21 +71,21 @@ void loop() {
 
 ## Hardware
 
-Descripción de pines del módulo ESP-01 utilizado en este proyecto. *Créditos: [RandomNerdTutorials](https://randomnerdtutorials.com/)*.
+Diagrama de conexiones.
 
-![](./docs/ESP-01-pinout-gpio-pin.png)
+![Diagrama esquemático](./docs/NodeMCU_schematic.png)
 
 ## ToDo
 
 - Agregar soporte para micros ESP32
 - Validar los datos ingresados mediante los campos del formulario
-- Mejorar el diseño del portal HTML
+- ~~Mejorar el diseño del portal HTML~~
 - Documentar variantes de hardware
 
 ## Recursos
 
 - [Páginas embebidas con ESP8266 (WebServer)](https://blog.tute-avalos.com/2022/08/26/paginas-embebidas-webserver-esp8266/)
 - [ESP8266 Pinout Reference: Which GPIO pins should you use?](https://randomnerdtutorials.com/esp8266-pinout-reference-gpios/)
-- [ESP8266 Arduino Core ](https://arduino-esp8266.readthedocs.io/en/2.5.2/reference.html)
-- [ESP8266WiFi library](https://arduino-esp8266.readthedocs.io/en/latest/esp8266wifi/readme.html)
+- [ESP8266 Arduino Core ](https://esp8266-arduino-spanish.readthedocs.io/es/latest/index.html)
+- [ESP8266WiFi library](https://esp8266-arduino-spanish.readthedocs.io/es/latest/esp8266wifi/readme.html)
 - [HTML5 y CSS3](https://www.html6.es/)
