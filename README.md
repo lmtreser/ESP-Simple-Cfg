@@ -1,23 +1,33 @@
 # Simple Portal Web para ESP8266
 
-Simple portal web para configurar las credenciales de una red WiFi en un dispositivo construido alrededor de un ESP8266
+Simple portal web para configurar las credenciales de una red WiFi en un dispositivo construido alrededor de un ESP8266.
+
+Se trata de un pequeño [Captive Portal](https://en.wikipedia.org/wiki/Captive_portal) que permite configurar las credenciales WiFi (SSID y Password) a un *usuario final* que tenga algún dispositivo IoT basado en el microcontrolador ESP8266.
 
 ## Documentación
 
-Dependencias: #include <ESP8266WebServer.h>
-#include <ESP8266WiFi.h>
-#include <EEPROM.h>
+Para compilar el proyecto son necesarias las siguientes dependencias:
 
-archivo espSetup.h
+- [ESP8266WebServer.h](https://github.com/esp8266/ESPWebServer)
+- [ESP8266WiFi.h](https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WiFi)
+- [EEPROM.h](https://github.com/esp8266/Arduino/tree/master/libraries/EEPROM)
 
-// 1 para activar el DEBUG por Serial
-#define ENABLE_DEBUG 1
+### Archivo "espSetup.h"
 
-// Credenciales WiFi
+Activar el modo de depuración vía Serial, 1=activado 0=desactivado
+
+`#define ENABLE_DEBUG 1`
+
+Objetos string que almacenan las credenciales WiFi
+
+```
 String wifiSsid = "ssid";
 String wifiPassword = "password";
+```
 
-void wifiConnect();     // Conectar a la red WiFi
+Conectar a la red WiFi
+
+`void wifiConnect();     // `
 void wifiAP();          // Funcionar en modo AP
 void handleRootGET();   // Enviar el Captive Portal
 void handleRootPOST();  // Manejo de las peticiones desde el browser
@@ -44,6 +54,13 @@ const int PASS_ADDRESS = 100;
 void writeString(int address, const String &data);                 // Escribir un String en la memoria EEPROM interna
 String readString(int address);                                    // Leer un String desde la memoria EEPROM interna
 void saveCredentials(const String &ssid, const String &password);  // Almacenar las credenciales WiFi en la memoria EEPROM interna
+
+## ToDo
+
+- Agregar soporte para micros ESP32
+- Validar los datos ingresados mediante los campos del formulario
+- Mejorar el diseño del portal HTML
+- Documentar variantes de hardware
 
 ## Recursos
 
