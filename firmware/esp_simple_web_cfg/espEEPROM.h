@@ -6,12 +6,10 @@
 // Direcciones EEPROM a utilizar
 const int SSID_ADDRESS = 0;
 const int PASS_ADDRESS = 100;
-const int CONFIG_RESET = 250;
 
-void writeString();  // Escribir un String en la memoria EEPROM interna
-String readString(); // Leer un String desde la memoria EEPROM interna
-void saveCredentials(); // Almacenar las credenciales WiFi en la memoria EEPROM interna
-
+void writeString(int address, const String &data);                 // Escribir un String en la memoria EEPROM interna
+String readString(int address);                                    // Leer un String desde la memoria EEPROM interna
+void saveCredentials(const String &ssid, const String &password);  // Almacenar las credenciales WiFi en la memoria EEPROM interna
 
 void writeString(int address, const String &data) {
   for (int i = 0; i < data.length(); i++) {
