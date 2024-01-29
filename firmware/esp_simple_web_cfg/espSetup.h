@@ -21,7 +21,8 @@ ESP8266WebServer server(80);
 
 void wifiConnect();     // Conectar a la red WiFi
 void wifiAP();          // Funcionar en modo AP
-void handleRoot();      // Manejo de las peticiones desde el browser
+void handleRootGET();   // Enviar el Captive Portal
+void handleRootPOST();  // Manejo de las peticiones desde el browser
 void espSetup();        // Configuraciones, incluir dentro de setup()
 void espLoop();         // Funciones auxiliares, incluir dentro de loop()
 
@@ -73,8 +74,9 @@ void wifiAP() {
   }
 
   // WebServer atiende peticiones en '/'
-  server.on("/", handleRoot);
-  server.onNotFound(handleRoot);
+  server.on("/", HTTP_GET, handleRootGET);
+  server.on("/", HTTP_POST, handleRootPOST);
+  server.onNotFound(handleRootGET);
   server.begin();
 
 #if ENABLE_DEBUG
@@ -84,21 +86,32 @@ void wifiAP() {
 #endif
 }
 
-void handleRoot() {
-
-  server.sendHeader("Location", "/", true);   // Redirigir al Captive Portal
+void handleRootGET() {
   server.send(200, "text/html", htmlConfig);  // Enviar el Captive Portal
+}
+
+void handleRootPOST() {
 
   // Si llegan datos desde el formulario, ejecutar
+  // ToDo: validar los datos ingresados
   if (!(server.arg("ssid").isEmpty()) || !(server.arg("password").isEmpty())) {
 
     wifiSsid = server.arg("ssid").c_str();
     wifiPassword = server.arg("password").c_str();
+#if ENABLE_DEBUG
+    Serial.println("Datos desde el formulario: ");
+    Serial.println("SSID: " + wifiSsid);
+    Serial.println("Password: " + wifiPassword);
+#endif
+    saveCredentials(wifiSsid, wifiPassword);
     server.send(200, "text/html", htmlSuccess);
-    delay(2000);
+#if ENABLE_DEBUG
+    Serial.println("Datos guardados en la EEPROM.");
+    Serial.println("Reiniciando el ESP8266");
+#endif
 
-    WiFi.softAPdisconnect(true);  // Desconectar el modo AP
-    wifiConnect();                // Conectar a WiFi
+    delay(2000);
+    ESP.restart();
   }
 }
 
@@ -109,6 +122,11 @@ void espSetup() {
   Serial.begin(9600);
 #endif
   pinMode(RESET, INPUT_PULLUP);
+  EEPROM.begin(511);
+
+  // Al iniciar recuperar las credenciales desde la EEPROM
+  wifiSsid = readString(SSID_ADDRESS);
+  wifiPassword = readString(PASS_ADDRESS);
   wifiConnect();  // Conectar a WiFi
 }
 
@@ -119,7 +137,7 @@ void espLoop() {
 
   // Resetear las credenciales almacenadas
   bool buttonState = digitalRead(RESET);
-  if (buttonState == LOW) WiFi.disconnect(true);
+  if (buttonState == LOW) wifiAP();
 }
 
 #endif
