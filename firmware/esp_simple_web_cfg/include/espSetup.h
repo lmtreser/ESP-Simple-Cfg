@@ -20,10 +20,16 @@
 // Constantes
 const int MAX_ATTEMPTS = 50;  // Intentos de conexion
 const int RESET = 5;          // Pin de reset de credenciales, GPIO5 = D1
+const int BLINK_TIME = 500;   // Tiempo LED Status
 
 // Credenciales WiFi
 String wifiSsid = "ssid";
 String wifiPassword = "password";
+
+// Variables, modo de funcionamiento y LED Status
+bool wifiMode = false;
+bool statusLed = false;
+unsigned long lastMillis;
 
 ESP8266WebServer server(80);
 
@@ -73,6 +79,7 @@ void wifiAP() {
   Serial.println("Ejecutando en modo AP");
 #endif
 
+  wifiMode = true;  // Flag de modo AP
   WiFi.mode(WIFI_AP);
   while (!WiFi.softAP("ESP8266 WebServer")) {
 #if ENABLE_DEBUG
@@ -119,6 +126,7 @@ void handleRootPOST() {
 #endif
 
     delay(2000);
+    wifiMode = false;
     ESP.restart();
   }
 }
@@ -130,6 +138,7 @@ void espSetup() {
   Serial.begin(9600);
 #endif
   pinMode(RESET, INPUT_PULLUP);
+  pinMode(LED_BUILTIN, OUTPUT);
   EEPROM.begin(511);
 
   // Al iniciar recuperar las credenciales desde la EEPROM
@@ -141,11 +150,30 @@ void espSetup() {
 // Incluir dentro de loop()
 void espLoop() {
 
-  server.handleClient();  // Ejecución en modo AP
+  // Ejecución sólo en modo AP
+  if (wifiMode == true) {
+    server.handleClient();  
+  } else {    
+      // Si se pulsa, invocar el Captive Portal
+      bool buttonState = digitalRead(RESET);
+      if (buttonState == LOW) wifiAP();
 
-  // Resetear las credenciales almacenadas
-  bool buttonState = digitalRead(RESET);
-  if (buttonState == LOW) wifiAP();
+      // Blink Status LED
+      unsigned long currentMillis = millis();
+      if (currentMillis - lastMillis >= BLINK_TIME) {
+        lastMillis = currentMillis;
+        digitalWrite(LED_BUILTIN, statusLed);
+        statusLed = !statusLed;
+      }
+
+      // Ejecución en caso de desconexión (y no en modo AP)
+      if ((WiFi.status() != WL_CONNECTED) && (buttonState == HIGH)) {
+#if ENABLE_DEBUG
+        Serial.println("Conexion perdida. Reconectando...");
+#endif
+        wifiConnect();
+      }
+    }
 }
 
 #endif
