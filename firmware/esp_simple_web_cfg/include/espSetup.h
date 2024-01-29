@@ -1,3 +1,11 @@
+/*
+ *  espSetup.h
+ *  Gestión de la conexión WiFi
+ *  created 29 Ene 2024
+ *  Lucas Martin Treser (github: @lmtreser)
+ *
+*/
+
 #ifndef espSetup_h
 #define espSetup_h
 
