@@ -12,27 +12,18 @@ Para compilar el proyecto son necesarias las siguientes dependencias:
 - [ESP8266WiFi.h](https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WiFi)
 - [EEPROM.h](https://github.com/esp8266/Arduino/tree/master/libraries/EEPROM)
 
-### Archivo "espSetup.h"
+El archivo `espSetup.h"` contiene prácticamente todo el código relacionado a la conectividad WiFi. Cambiando la línea `#define ENABLE_DEBUG 1` es posible activar (o no) el modo de depuración vía el monitor Serial. Por defecto esta activado, con `0` se desactiva.
 
-Activar el modo de depuración vía Serial, 1=activado 0=desactivado
+Se utilizan dos objetos *string* para almacenar las credenciales WiFi: `String wifiSsid` para el SSID y `String wifiPassword` para la contraseña.
 
-`#define ENABLE_DEBUG 1`
+Las funciones incluidas son las siguientes:
 
-Objetos string que almacenan las credenciales WiFi
-
-```
-String wifiSsid = "ssid";
-String wifiPassword = "password";
-```
-
-Conectar a la red WiFi
-
-`void wifiConnect();     // `
-void wifiAP();          // Funcionar en modo AP
-void handleRootGET();   // Enviar el Captive Portal
-void handleRootPOST();  // Manejo de las peticiones desde el browser
-void espSetup();        // Configuraciones, incluir dentro de setup()
-void espLoop();         // Funciones auxiliares, incluir dentro de loop()
+- `void wifiConnect()`
+- `void wifiAP()` Funcionamiento en modo Soft-AP
+- `void handleRootGET()` Enviar el Captive Portal
+- `void handleRootPOST()` Manejo de las peticiones desde el browser
+- `void espSetup()` Configuraciones, incluir dentro de setup()
+- `void espLoop()` Funciones auxiliares, incluir dentro de loop()
 
 // Constantes
 const int MAX_ATTEMPTS = 50;  // Intentos de conexion
