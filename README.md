@@ -12,9 +12,9 @@ Para compilar el proyecto son necesarias las siguientes dependencias:
 - [ESP8266WiFi.h](https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WiFi)
 - [EEPROM.h](https://github.com/esp8266/Arduino/tree/master/libraries/EEPROM)
 
-El archivo `espSetup.h"` contiene prácticamente todo el código relacionado a la conectividad WiFi. Cambiando la línea `#define ENABLE_DEBUG 1` es posible activar (o no) el modo de depuración vía el monitor Serial. Por defecto esta activado, con `0` se desactiva.
+El archivo `espSetup.h` contiene prácticamente todo el código relacionado a la conectividad WiFi. Cambiando la línea `#define ENABLE_DEBUG 1` es posible activar (o no) el modo de depuración vía el monitor Serial. Por defecto esta activado, con `0` se desactiva.
 
-Se utilizan dos objetos *String* para almacenar las credenciales WiFi: `wifiSsid` para el SSID y `wifiPassword` para la contraseña. Además hay definidas dos constantes útiles: `MAX_ATTEMPTS` es un multiplicar de tiempo para dar por finalizado los intentos fallidos de conexión y lanzar el captive portal. `RESET` se refiere al pin GPIO donde se encuentra conectado un pulsador pull-down para forzar el captive portal, por defecto es `GPIO05` o `D1`.
+Se utilizan dos objetos *String* para almacenar las credenciales WiFi: `wifiSsid` para el SSID y `wifiPassword` para la contraseña. Además hay definidas dos constantes útiles: `MAX_ATTEMPTS` es un multiplicar de tiempo para dar por finalizado los intentos fallidos de conexión y lanzar el Captive Portal. `RESET` se refiere al pin GPIO donde se encuentra conectado un pulsador *pull-down* para forzar el Captive Portal, por defecto es `GPIO05` o `D1`.
 
 Las funciones incluidas son las siguientes:
 
@@ -63,7 +63,7 @@ void loop() {
 
 ## Hardware
 
-Descripción de pines del módulo ESP-01 utilizado en este proyecto.
+Descripción de pines del módulo ESP-01 utilizado en este proyecto. *Créditos: [RandomNerdTutorials](https://randomnerdtutorials.com/)*.
 
 ![](./docs/ESP-01-pinout-gpio-pin.png)
 
