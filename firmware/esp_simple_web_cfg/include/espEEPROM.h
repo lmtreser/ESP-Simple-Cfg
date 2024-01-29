@@ -1,3 +1,11 @@
+/*
+ *  espEEPROM.h
+ *  Gestión de la memoria EEPROM interna
+ *  created 29 Ene 2024
+ *  Lucas Martin Treser (github: @lmtreser)
+ *
+*/
+
 #ifndef espEEPROM_h
 #define espEEPROM_h
 
