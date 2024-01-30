@@ -8,9 +8,12 @@ Para acceder al portal hay que conectarse a la red WiFi que genera el ESP8266, p
 
 ![Captive Portal](./docs/Captive_portal.png)
 
-El funcionamiento del sistema es el siguiente:
+El funcionamiento del sistema es muy simple: 
 
-![Diagrama de flujo](./docs/flow.png)
+1. Inicia el sistema con el encendido de la placa.
+2. `wifiConnect()` intenta conectar durante 5 segundos utilizando las credenciales almacenadas en la memoria EEPROM interna, para luego ejecutar funciones auxiliares (como manejar un LED *Status*). En caso contrario, es decir si falla la conexión, invoca a `wifiAP()`.
+3. `wifiAP()` genera una red WiFi para que el cliente se pueda conectar. Acto seguido deberá ingresar mediante el navegador a la dirección IP del Captive Portal, completar el formulario con los datos de la red a la que desea conectar el dispositivo y presionar el botón `Guardar`. El sistema se reiniciará y volverá a ejecutar el paso (1).
+4. Es posible forzar el Captive Portal en caso de querer cambiar las credenciales almacenadas, para esto simplemente se pulsa el botón `RESET`. 
 
 ## Documentación
 
