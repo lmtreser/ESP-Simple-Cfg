@@ -75,6 +75,11 @@ const char* htmlSuccess PROGMEM = R"(
       <meta name='viewport' content='width=device-width, initial-scale=1.0'>
       <title>ESP8266 WebServer Config</title>
       <style>
+        /* Estilos para el div */
+        div {
+          border: 1px solid #ccc;
+          border-radius: 3px;
+        }
         /* Estilos para el h2 */
         h2 {
           text-align: center;
@@ -88,7 +93,7 @@ const char* htmlSuccess PROGMEM = R"(
       </style>
     </head>
     <body>
-      <h2>Cambios guardados con exito.</h2>
+      <h2>¡Cambios guardados con exito!</h2>
       <h3>Reiniciando...</h3>
     </body>
   </html>)";
