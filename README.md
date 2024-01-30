@@ -14,7 +14,7 @@ El funcionamiento del sistema es el siguiente:
 
 ## Documentación
 
-Para compilar el proyecto son necesarias las siguientes dependencias:
+Para compilar el proyecto son necesarias las siguientes dependencias, incluidas en el *ESP8266 Arduino Core*:
 
 - [ESP8266WebServer.h](https://github.com/esp8266/ESPWebServer)
 - [ESP8266WiFi.h](https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WiFi)
@@ -22,7 +22,12 @@ Para compilar el proyecto son necesarias las siguientes dependencias:
 
 El archivo `espSetup.h` contiene prácticamente todo el código relacionado a la conectividad WiFi. Cambiando la línea `#define ENABLE_DEBUG 1` es posible activar (o no) el modo de depuración vía el monitor Serial. Por defecto esta activado, con `0` se desactiva.
 
-Se utilizan dos objetos *String* para almacenar las credenciales WiFi: `wifiSsid` para el SSID y `wifiPassword` para la contraseña. Además hay definidas dos constantes útiles: `MAX_ATTEMPTS` es un multiplicar de tiempo para dar por finalizado los intentos fallidos de conexión y lanzar el Captive Portal. `RESET` se refiere al pin GPIO donde se encuentra conectado un pulsador *pull-down* para forzar el Captive Portal, por defecto es `GPIO05` / `D1`.
+Se utilizan dos objetos *String* para almacenar las credenciales WiFi: `wifiSsid` para el SSID y `wifiPassword` para la contraseña. Además hay definidas algunas constantes útiles: 
+
+- `MAX_ATTEMPTS` es un multiplicar de tiempo para dar por finalizado los intentos fallidos de conexión y lanzar el Captive Portal.
+- `RESET` se refiere al pin GPIO donde se encuentra conectado un pulsador *pull-down* para forzar el Captive Portal, por defecto es `GPIO05` / `D1`.
+- `BLINK_TIME` es el tiempo entre destellos del *Status LED*.
+- `FLASH_LED` es el tiempo de encendido del *Status LED*.
 
 Las funciones incluidas son las siguientes:
 
@@ -31,7 +36,8 @@ Las funciones incluidas son las siguientes:
 - `void handleRootGET()` Envía el Captive Portal
 - `void handleRootPOST()` Maneja las peticiones desde el browser
 - `void espSetup()` Configuraciones, incluir dentro de *setup()* en el archivo pricipal
-- `void espLoop()` Funciones auxiliares, incluir dentro de *loop()* en el archivo pricipal
+- `void espLoop()` Ejecuta funciones auxiliares, incluir dentro de *loop()* en el archivo pricipal
+- `void blinkLed()` Maneja el destello del *Status LED*, por defecto 100 ms cada 3 s.
 
 El archivo `html.h` contiene el código HTML que se utiliza en el Captive Portal. Actualmente hay dos páginas embebidas:
 
@@ -71,7 +77,7 @@ void loop() {
 
 ## Hardware
 
-Diagrama de conexiones.
+Para las pruebas se utilizo una placa de prototipos [*NodeMCU*](https://es.wikipedia.org/wiki/NodeMCU) genérica, simplemente con un pulsador conectado en el `GPIO5`, según el siguiente diagrama de conexiones.
 
 ![Diagrama esquemático](./docs/NodeMCU_schematic.png)
 
