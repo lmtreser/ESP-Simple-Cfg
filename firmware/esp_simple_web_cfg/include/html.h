@@ -93,9 +93,11 @@ const char* htmlSuccess PROGMEM = R"(
       </style>
     </head>
     <body>
-      <h2>¡Cambios guardados con exito!</h2>
-      <h3>Reiniciando...</h3>
-    </body>
+      <div>
+        <h2>¡Cambios guardados con exito!</h2>
+        <h3>Reiniciando...</h3>
+      </div>
+      </body>
   </html>)";
 
 #endif
