@@ -15,7 +15,7 @@ El funcionamiento del sistema es muy simple:
 3. `wifiAP()` genera una red WiFi para que el cliente se pueda conectar. Acto seguido deberá ingresar mediante el navegador a la dirección IP del Captive Portal, completar el formulario con los datos de la red a la que desea conectar el dispositivo y presionar el botón `Guardar`. El sistema se reiniciará y volverá a ejecutar el paso (1).
 4. Es posible forzar el Captive Portal en caso de querer cambiar las credenciales almacenadas, para esto simplemente se pulsa el botón `RESET`. 
 
-## Documentación
+## Descripción del código
 
 Para compilar el proyecto son necesarias las siguientes dependencias, incluidas en el *ESP8266 Arduino Core*:
 
@@ -75,7 +75,6 @@ void loop() {
       Considerar no utizar retardos bloqueantes (delay).
   */
 }
-
 ```
 
 ## Hardware
@@ -86,11 +85,11 @@ Para las pruebas se utilizo una placa de prototipos [*NodeMCU*](https://es.wikip
 
 ## ToDo
 
-- Agregar soporte para micros ESP32
-- ¿Agregar soporte para Raspberry Pi Pico W?
-- Validar los datos ingresados mediante los campos del formulario
-- ~~Mejorar el diseño del portal HTML~~
-- Documentar variantes de hardware
+- [ ] Agregar soporte para micros ESP32
+- [ ] ¿Agregar soporte para Raspberry Pi Pico W?
+- [ ] Validar los datos ingresados mediante los campos del formulario
+- [x] Mejorar el diseño del portal HTML
+- [ ] Documentar variantes de hardware
 
 ## Recursos
 
