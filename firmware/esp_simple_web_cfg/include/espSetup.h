@@ -20,16 +20,15 @@
 // Constantes
 const int MAX_ATTEMPTS = 50;  // Intentos de conexion
 const int RESET = 5;          // Pin de reset de credenciales, GPIO5 = D1
-const int BLINK_TIME = 500;   // Tiempo LED Status
+const int BLINK_TIME = 3000;   // Tiempo LED Status
+const int FLASH_LED = 100;
 
 // Credenciales WiFi
 String wifiSsid = "ssid";
 String wifiPassword = "password";
 
-// Variables, modo de funcionamiento y LED Status
+// Variables, modo de funcionamiento
 bool wifiMode = false;
-bool statusLed = false;
-unsigned long lastMillis;
 
 ESP8266WebServer server(80);
 
@@ -39,6 +38,7 @@ void handleRootGET();   // Enviar el Captive Portal
 void handleRootPOST();  // Manejo de las peticiones desde el browser
 void espSetup();        // Configuraciones, incluir dentro de setup()
 void espLoop();         // Funciones auxiliares, incluir dentro de loop()
+void blinkLed();        // Función para hacer destellar el Status LED
 
 void wifiConnect() {
 
@@ -53,17 +53,20 @@ void wifiConnect() {
   Serial.println(" y Password: " + WiFi.psk());
 #endif
 
-  // Intentar conectar a WiFi
+  // Intentar conectar a WiFi (durante 5 segundos)
   while ((WiFi.status() != WL_CONNECTED) && (attempts < MAX_ATTEMPTS)) {
     delay(100);
 #if ENABLE_DEBUG
-    Serial.print(".");
+    Serial.print(". ");
 #endif
     attempts++;
   }
 
   // Si no se logro la conexion, pasar al modo AP y lanzar el portal
   if (WiFi.status() != WL_CONNECTED) {
+#if ENABLE_DEBUG
+    Serial.println("\nSin conexión WiFi. Lanzando el Captive Portal.");
+#endif    
     wifiAP();
   } else {
 #if ENABLE_DEBUG
@@ -125,9 +128,27 @@ void handleRootPOST() {
     Serial.println("Reiniciando el ESP8266");
 #endif
 
-    delay(2000);
+    delay(3000);
     wifiMode = false;
     ESP.restart();
+  }
+}
+
+void blinkLed() {
+  
+  static bool statusLed = true;
+  static unsigned long lastMillis = 0;
+  unsigned long currentMillis = millis();
+
+  if (currentMillis - lastMillis >= BLINK_TIME) {
+    lastMillis = currentMillis;
+    statusLed = !statusLed;
+    digitalWrite(LED_BUILTIN, statusLed);
+  }
+
+  if ((statusLed == false) && (currentMillis - lastMillis >= FLASH_LED)) {
+    statusLed = !statusLed;
+    digitalWrite(LED_BUILTIN, statusLed);
   }
 }
 
@@ -153,26 +174,21 @@ void espLoop() {
   // Ejecución sólo en modo AP
   if (wifiMode == true) {
     server.handleClient();  
-  } else {    
-      // Si se pulsa, invocar el Captive Portal
-      bool buttonState = digitalRead(RESET);
-      if (buttonState == LOW) wifiAP();
+  } else {
 
-      // Blink Status LED
-      unsigned long currentMillis = millis();
-      if (currentMillis - lastMillis >= BLINK_TIME) {
-        lastMillis = currentMillis;
-        digitalWrite(LED_BUILTIN, statusLed);
-        statusLed = !statusLed;
-      }
-
-      // Ejecución en caso de desconexión (y no en modo AP)
-      if ((WiFi.status() != WL_CONNECTED) && (buttonState == HIGH)) {
+      // Ejecución en caso de desconexión de la red WiFi
+      if (WiFi.status() != WL_CONNECTED) {
 #if ENABLE_DEBUG
         Serial.println("Conexion perdida. Reconectando...");
 #endif
         wifiConnect();
       }
+
+      blinkLed(); // Blink Status LED (100ms cada 3s)
+
+      // Si se pulsa, invocar el Captive Portal
+      bool buttonState = digitalRead(RESET);
+      if (buttonState == LOW) wifiAP();
     }
 }
 
