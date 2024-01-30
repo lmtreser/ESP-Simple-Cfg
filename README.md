@@ -22,7 +22,7 @@ Para compilar el proyecto son necesarias las siguientes dependencias:
 
 El archivo `espSetup.h` contiene prácticamente todo el código relacionado a la conectividad WiFi. Cambiando la línea `#define ENABLE_DEBUG 1` es posible activar (o no) el modo de depuración vía el monitor Serial. Por defecto esta activado, con `0` se desactiva.
 
-Se utilizan dos objetos *String* para almacenar las credenciales WiFi: `wifiSsid` para el SSID y `wifiPassword` para la contraseña. Además hay definidas dos constantes útiles: `MAX_ATTEMPTS` es un multiplicar de tiempo para dar por finalizado los intentos fallidos de conexión y lanzar el Captive Portal. `RESET` se refiere al pin GPIO donde se encuentra conectado un pulsador *pull-down* para forzar el Captive Portal, por defecto es `GPIO05` o `D1`.
+Se utilizan dos objetos *String* para almacenar las credenciales WiFi: `wifiSsid` para el SSID y `wifiPassword` para la contraseña. Además hay definidas dos constantes útiles: `MAX_ATTEMPTS` es un multiplicar de tiempo para dar por finalizado los intentos fallidos de conexión y lanzar el Captive Portal. `RESET` se refiere al pin GPIO donde se encuentra conectado un pulsador *pull-down* para forzar el Captive Portal, por defecto es `GPIO05` / `D1`.
 
 Las funciones incluidas son las siguientes:
 
@@ -38,7 +38,7 @@ El archivo `html.h` contiene el código HTML que se utiliza en el Captive Portal
 - `htmlConfig` Captive Portal
 - `htmlSuccess` Mensaje luego de procesar el formulario
 
-El archivo `espEEPROM.h` contiene el código relacionado al manejo de la memoria EEPROM interna que se utilizar para almacenar los datos ingresados de manera permanente. Hay disponibles dos constantes que permiten seleccionar las direcciones de la memoria a utilizar: `SSID_ADDRESS` para el SSID y `PASS_ADDRESS` para la contraseña.
+El archivo `espEEPROM.h` contiene el código relacionado al manejo de la memoria EEPROM interna que se utiliza para almacenar los datos ingresados de manera permanente. Hay disponibles dos constantes que permiten seleccionar las direcciones de la memoria a utilizar: `SSID_ADDRESS` para el SSID y `PASS_ADDRESS` para la contraseña.
 
 Las funciones incluidas son las siguientes:
 
@@ -78,6 +78,7 @@ Diagrama de conexiones.
 ## ToDo
 
 - Agregar soporte para micros ESP32
+- ¿Agregar soporte para Raspberry Pi Pico W?
 - Validar los datos ingresados mediante los campos del formulario
 - ~~Mejorar el diseño del portal HTML~~
 - Documentar variantes de hardware
