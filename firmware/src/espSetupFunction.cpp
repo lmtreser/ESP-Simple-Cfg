@@ -12,16 +12,22 @@
 // 1 para activar el DEBUG por Serial
 #define ENABLE_DEBUG 1
 
+#if defined(ESP8266)
+#include <Arduino.h>
 #include <ESP8266WebServer.h>
 #include <ESP8266WiFi.h>
+#elif defined(ESP32)
+
+#endif
+
 #include "espEEPROM.h"
 #include "html.h"
 
 // Constantes
-const int MAX_ATTEMPTS = 50;  // Intentos de conexion
-const int RESET = 5;          // Pin de reset de credenciales, GPIO5 = D1
-const int BLINK_TIME = 3000;   // Tiempo LED Status
-const int FLASH_LED = 100;
+const uint8_t MAX_ATTEMPTS = 50;    // Intentos de conexion
+const uint8_t RESET = 5;            // Pin de reset de credenciales, GPIO5 = D1
+const uint8_t BLINK_TIME = 3000;    // Tiempo LED Status
+const uint8_t FLASH_LED = 100;
 
 // Credenciales WiFi
 String wifiSsid = "ssid";
@@ -42,7 +48,7 @@ void blinkLed();        // Función para hacer destellar el Status LED
 
 void wifiConnect() {
 
-  int attempts = 0;
+  uint8_t attempts = 0;
 
   WiFi.mode(WIFI_STA);
   WiFi.begin(wifiSsid, wifiPassword);
@@ -137,8 +143,8 @@ void handleRootPOST() {
 void blinkLed() {
   
   static bool statusLed = true;
-  static unsigned long lastMillis = 0;
-  unsigned long currentMillis = millis();
+  static uint32_t lastMillis = 0;
+  uint32_t currentMillis = millis();
 
   if (currentMillis - lastMillis >= BLINK_TIME) {
     lastMillis = currentMillis;
