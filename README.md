@@ -69,12 +69,12 @@ El siguiente código Arduino permite comenzar un proyecto centrándose unicament
 #include "espWebCfg.h"
 
 void setup() {
-  espSetupFunction();
+  espSetup();
 }
 
 void loop() {
 
-  espLoopFunction();
+  espLoop();
 
   /*
       Acá tu código...
