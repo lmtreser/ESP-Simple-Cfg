@@ -31,7 +31,7 @@ Para el ESP32, incluidas en el *ESP32 Arduino Core*:
 
 Todo el código esta contenido en varios archivos para facilitar el mantenimiento:
 
-`espWebCfg.h` contiene los prototipos de funciones, declaraciones de variables y constantes. Es la inclusión que se debe hacer en el archivo principal, por ejemplo `myFirmware.ino`. 
+**`espWebCfg.h`** contiene los prototipos de funciones, declaraciones de variables y constantes. Es la inclusión que se debe hacer en el archivo principal, por ejemplo `myFirmware.ino`. 
 
 Incorpora la línea `#define ENABLE_DEBUG 1` que permite activar (o no) el modo de depuración vía el monitor Serial. Por defecto esta activado, con `0` se desactiva. 
 
