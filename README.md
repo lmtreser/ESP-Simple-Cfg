@@ -32,7 +32,7 @@ Para el ESP32, también incluidas en el *core*:
 El archivo `espWebCfg.h` contiene los prototipos de funciones, declaraciones de variables y constantes. Es la inclusión que se debe hacer en el archivo principal, por ejemplo `myFirmware.ino`. Además incorpora la línea `#define ENABLE_DEBUG 1` que permite activar (o no) el modo de depuración vía el monitor Serial. Por defecto esta activado, con `0` se desactiva. Además hay definidas algunas constantes útiles:
 
 - `MAX_ATTEMPTS` es un multiplicar de tiempo para dar por finalizado los intentos fallidos de conexión y lanzar el Captive Portal.
-- `RESET` se refiere al pin GPIO donde se encuentra conectado un pulsador *pull-down* para forzar el Captive Portal, por defecto es `GPIO04` / `G4` / `D2`.
+- `RESET` se refiere al pin GPIO donde se encuentra conectado un pulsador *pull-down* para forzar el Captive Portal, por defecto es `GPIO04` / `G4` / `D2` (consulte el pinout de su placa).
 - `BLINK_TIME` es el tiempo entre destellos del *Status LED*.
 - `FLASH_LED` es el tiempo de encendido del *Status LED*.
 
@@ -57,8 +57,8 @@ El archivo `espEEPROM.cpp` contiene el código relacionado al manejo de la memor
 
 Las funciones incluidas son las siguientes:
 
-- `writeString(int address, const String &data)` Escribe un *String* en la dirección especificada
 - `readString(int address)` Devuelve un *String* desde la dirección especificada
+- `writeString(int address, const String &data)` Escribe un *String* en la dirección especificada
 - `saveCredentials(const String &ssid, const String &password)` Almacena las credenciales WiFi
 
 ## Ejemplo de uso
@@ -69,12 +69,12 @@ El siguiente código Arduino permite comenzar un proyecto centrándose unicament
 #include "espWebCfg.h"
 
 void setup() {
-  espSetup();
+  espSetupFunction();
 }
 
 void loop() {
 
-  espLoop();
+  espLoopFunction();
 
   /*
       Acá tu código...
