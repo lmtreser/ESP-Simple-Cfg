@@ -4,17 +4,17 @@
     La IP por defecto para conectarse es 192.168.4.1
 */
 
-#include "./include/espSetup.h"
+#include "espWebcfg.h"
 
 void setup() {
 
-  espSetup(); // Configuraciones WiFi
+  espSetupFunction(); // Configuraciones WiFi
 
 }
 
 void loop() {
 
-  espLoop();
+  espLoopFunction();
 
   /*
       Acá tu código...
