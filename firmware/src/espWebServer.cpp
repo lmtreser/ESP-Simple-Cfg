@@ -9,7 +9,12 @@
 #include "espWebCfg.h"
 
 bool wifiMode = false; // Modo de funcionamiento
+
+#ifdef ESP8266
 ESP8266WebServer server(80);
+#elif defined(ESP32)
+WebServer server(80);
+#endif
 
 // Funcionar en modo AP
 void wifiAP() {

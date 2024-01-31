@@ -9,12 +9,12 @@
 #ifndef ESPWEBCFG_H
 #define ESPWEBCFG_H
 
-#if defined(ESP8266)
+#ifdef ESP8266
 #include <ESP8266WebServer.h>
 #include <ESP8266WiFi.h>
 #elif defined(ESP32)
-#include <WebServer.h>
 #include <WiFi.h>
+#include <WebServer.h>
 #endif
 
 #include <Arduino.h>
@@ -36,7 +36,11 @@ extern bool wifiMode;
 extern String wifiSsid;
 extern String wifiPassword;
 
+#ifdef ESP8266
 extern ESP8266WebServer server;
+#elif defined(ESP32)
+extern WebServer server;
+#endif
 
 void wifiConnect();     // Conectar a la red WiFi
 void wifiAP();          // Funcionar en modo AP

@@ -9,7 +9,7 @@
 #include "espWebCfg.h"
 
 // Constantes
-const uint8_t RESET = 5;            // Pin de reset de credenciales, GPIO5 = D1
+const uint8_t RESET = 4;            // Pin de reset de credenciales, GPIO4 = G4 = D2
 const uint16_t BLINK_TIME = 3000;   // Tiempo entre destellos LED "Status"
 const uint8_t FLASH_LED = 100;      // Tiempo de destello LED "Status"
 
