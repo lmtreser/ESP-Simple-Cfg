@@ -29,6 +29,9 @@ void blinkLed() {
   if ((statusLed == false) && (currentMillis - lastMillis >= FLASH_LED)) {
     statusLed = !statusLed;
     digitalWrite(LED_BUILTIN, statusLed);
+#if ENABLE_DEBUG
+    Serial.println("Status LED Blink");
+#endif
   }
 }
 

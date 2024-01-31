@@ -97,6 +97,10 @@ Para las pruebas se utilizo una placa de prototipos [*NodeMCU*](https://es.wikip
 - [x] Mejorar el diseño del portal HTML
 - [ ] Documentar variantes de hardware
 
+## Problemas conocidos
+
+- [x] No se está escribiendo el SSID en el monitor. `espWiFi.cpp`, linea 28. 
+
 ## Recursos
 
 - [Páginas embebidas con ESP8266 (WebServer)](https://blog.tute-avalos.com/2022/08/26/paginas-embebidas-webserver-esp8266/)

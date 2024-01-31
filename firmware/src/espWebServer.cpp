@@ -25,7 +25,7 @@ void wifiAP() {
 
   wifiMode = true;  // Flag de modo AP
   WiFi.mode(WIFI_AP);
-  while (!WiFi.softAP("ESP8266 WebServer")) {
+  while (!WiFi.softAP("ESP WebServer")) {
 #if ENABLE_DEBUG
     Serial.print('.');
 #endif
@@ -68,7 +68,7 @@ void handleRootPOST() {
     server.send(200, "text/html", htmlSuccess);
 #if ENABLE_DEBUG
     Serial.println("Datos guardados en la EEPROM.");
-    Serial.println("Reiniciando el ESP8266");
+    Serial.println("Reiniciando el ESP");
 #endif
 
     delay(3000);

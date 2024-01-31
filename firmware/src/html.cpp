@@ -72,7 +72,7 @@ const char* htmlSuccess PROGMEM = R"(
     <head>
       <meta charset='UTF-8'>
       <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-      <title>ESP8266 WebServer Config</title>
+      <title>ESP WebServer Config</title>
       <style>
         /* Estilos para el div */
         div {
@@ -92,6 +92,7 @@ const char* htmlSuccess PROGMEM = R"(
       </style>
     </head>
     <body>
+      <h1>Simple Portal Web para ESP8266/ESP32</h1>
       <div>
         <h2>¡Cambios guardados con exito!</h2>
         <h3>Reiniciando...</h3>

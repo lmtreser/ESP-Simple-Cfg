@@ -25,8 +25,6 @@ void wifiConnect() {
 
 #if ENABLE_DEBUG
   Serial.println("Ejecutando en modo STA");
-  Serial.print("Conectado con el SSID: " + WiFi.SSID());
-  Serial.println(" y Password: " + WiFi.psk());
 #endif
 
   // Intentar conectar a WiFi (durante 5 segundos)
@@ -46,7 +44,10 @@ void wifiConnect() {
     wifiAP();
   } else {
 #if ENABLE_DEBUG
-    Serial.print("\nConexión exitosa a la red WiFi con IP: ");
+    Serial.println("\nConexión exitosa a la red WiFi!");
+    Serial.println("SSID: " + WiFi.SSID());
+    Serial.println("Password: " + WiFi.psk());
+    Serial.print("IP: ");
     Serial.println(WiFi.localIP());
 #endif
   }
