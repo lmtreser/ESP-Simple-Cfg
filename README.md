@@ -42,24 +42,24 @@ Además hay definidas algunas constantes útiles:
 - `BLINK_TIME` es el tiempo entre destellos del *Status LED*.
 - `FLASH_LED` es el tiempo de encendido del *Status LED*.
 
-`espSetupFunction.cpp` gestiona distintas configuraciones mediante la función `espSetup()`. La misma se debe incluir dentro de *setup()* en el archivo pricipal, por ejemplo `myFirmware.ino`.
+**`espSetupFunction.cpp`** gestiona distintas configuraciones mediante la función `espSetup()`. La misma se debe incluir dentro de *setup()* en el archivo pricipal, por ejemplo `myFirmware.ino`.
 
-`espLoopFunction.cpp` contiene la función `espLoop()` que ejecuta funciones auxiliares. La misma se debe incluir dentro de *loop()* en el archivo pricipal, por ejemplo `myFirmware.ino`. Ademas incorpora la función `blinkLed()` que se encarga de manejar el destello del *Status LED*, por defecto 100 ms cada 3 segundos.
+**`espLoopFunction.cpp`** contiene la función `espLoop()` que ejecuta funciones auxiliares. La misma se debe incluir dentro de *loop()* en el archivo pricipal, por ejemplo `myFirmware.ino`. Ademas incorpora la función `blinkLed()` que se encarga de manejar el destello del *Status LED*, por defecto 100 ms cada 3 segundos.
 
-`espWiFi.cpp` contiene prácticamente todo el código relacionado a la conectividad WiFi. Se utilizan dos objetos *String* para almacenar las credenciales WiFi: `wifiSsid` para el SSID y `wifiPassword` para la contraseña. La función `wifiConnect()` es la que maneja la conexión a la red WiFi.
+**`espWiFi.cpp`** contiene prácticamente todo el código relacionado a la conectividad WiFi. Se utilizan dos objetos *String* para almacenar las credenciales WiFi: `wifiSsid` para el SSID y `wifiPassword` para la contraseña. La función `wifiConnect()` es la que maneja la conexión a la red WiFi.
 
-`espWebServer.cpp` se encarga de generar una red WiFi mediante el modo Soft-AP del ESP, y servir las páginas del Captive Portal. Las funciones incluidas son las siguientes:
+**`espWebServer.cpp`** se encarga de generar una red WiFi mediante el modo Soft-AP del ESP, y servir las páginas del Captive Portal. Las funciones incluidas son las siguientes:
 
 - `wifiAP()` Maneja el modo Soft-AP
 - `handleRootGET()` Envía el Captive Portal
 - `handleRootPOST()` Maneja las peticiones desde el browser
 
-`html.cpp` contiene el código HTML que se utiliza en el Captive Portal. Actualmente hay dos páginas embebidas:
+**`html.cpp`** contiene el código HTML que se utiliza en el Captive Portal. Actualmente hay dos páginas embebidas:
 
 - `htmlConfig` Captive Portal
 - `htmlSuccess` Mensaje luego de procesar el formulario
 
-`espEEPROM.cpp` contiene el código relacionado al manejo de la memoria EEPROM interna que se utiliza para almacenar los datos ingresados de manera permanente. Hay disponibles dos constantes que permiten seleccionar las direcciones de la memoria a utilizar: `SSID_ADDRESS` para el SSID y `PASS_ADDRESS` para la contraseña.
+**`espEEPROM.cpp`** contiene el código relacionado al manejo de la memoria EEPROM interna que se utiliza para almacenar los datos ingresados de manera permanente. Hay disponibles dos constantes que permiten seleccionar las direcciones de la memoria a utilizar: `SSID_ADDRESS` para el SSID y `PASS_ADDRESS` para la contraseña.
 
 Las funciones incluidas son las siguientes:
 
