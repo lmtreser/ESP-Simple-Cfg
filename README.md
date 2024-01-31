@@ -99,11 +99,12 @@ Para las pruebas se utilizó una placa de prototipos [*NodeMCU*](https://es.wiki
 
 ## ToDo
 
-- [x] Agregar soporte para micros ESP32
+- [x] Agregar soporte para SoC ESP32
 - [ ] ¿Agregar soporte para Raspberry Pi Pico W?
 - [ ] Validar los datos ingresados mediante los campos del formulario
 - [x] Mejorar el diseño del portal HTML
 - [ ] Documentar variantes de hardware
+- [ ] Realizar pruebas de funcionamiento
 
 ## Problemas conocidos
 
