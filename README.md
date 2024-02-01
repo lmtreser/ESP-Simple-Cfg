@@ -1,10 +1,10 @@
-# Simple Portal Web para ESP8266
+# Simple Portal Web para ESP8266/ESP32
 
-Simple portal web para configurar las credenciales de una red WiFi en un dispositivo construido alrededor de un ESP8266.
+Simple portal web para configurar las credenciales de una red WiFi en un dispositivo construido alrededor de un ESP8266 o de un ESP32.
 
-Se trata de un pequeño [Captive Portal](https://en.wikipedia.org/wiki/Captive_portal) que permite configurar las credenciales WiFi, tanto el SSID (Service Set IDentifier) como la Password a un *usuario final* que tenga algún dispositivo IoT basado en el microcontrolador ESP8266.
+Se trata de un pequeño [Captive Portal](https://en.wikipedia.org/wiki/Captive_portal) que permite configurar las credenciales WiFi, tanto el SSID (Service Set IDentifier) como la Password a un *usuario final* que tenga algún dispositivo IoT basado en el SoC ESP8266 o ESP32.
 
-Para acceder al portal hay que conectarse a la red WiFi que genera el ESP8266, por defecto el nombre de la red es `ESP8266 WebServer`, y desde el navegador dirigirse a la IP `192.168.4.1`.
+Para acceder al portal hay que conectarse a la red WiFi que genera el ESP, por defecto el nombre de la red es `ESP WebServer`, y desde el navegador dirigirse a la IP `192.168.4.1`.
 
 ![Captive Portal](./docs/Captive_portal.png)
 
@@ -23,44 +23,58 @@ Para compilar el proyecto son necesarias las siguientes dependencias, incluidas 
 - [ESP8266WiFi.h](https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266WiFi)
 - [EEPROM.h](https://github.com/esp8266/Arduino/tree/master/libraries/EEPROM)
 
-El archivo `espSetup.h` contiene prácticamente todo el código relacionado a la conectividad WiFi. Cambiando la línea `#define ENABLE_DEBUG 1` es posible activar (o no) el modo de depuración vía el monitor Serial. Por defecto esta activado, con `0` se desactiva.
+Para el ESP32, incluidas en el *ESP32 Arduino Core*:
 
-Se utilizan dos objetos *String* para almacenar las credenciales WiFi: `wifiSsid` para el SSID y `wifiPassword` para la contraseña. Además hay definidas algunas constantes útiles: 
+- [WebServer.h](https://github.com/espressif/arduino-esp32/tree/master/libraries/WebServer)
+- [WiFi.h](https://github.com/espressif/arduino-esp32/tree/master/libraries/WiFi)
+- [EEPROM.h](https://github.com/espressif/arduino-esp32/tree/master/libraries/EEPROM)
 
-- `MAX_ATTEMPTS` es un multiplicar de tiempo para dar por finalizado los intentos fallidos de conexión y lanzar el Captive Portal.
-- `RESET` se refiere al pin GPIO donde se encuentra conectado un pulsador *pull-down* para forzar el Captive Portal, por defecto es `GPIO05` / `D1`.
+Todo el código esta contenido en varios archivos para facilitar el mantenimiento:
+
+**`espWebCfg.h`** contiene los prototipos de funciones, declaraciones de variables y constantes. Es la inclusión que se debe hacer en el archivo principal, por ejemplo `myFirmware.ino`. 
+
+Incorpora la línea `#define ENABLE_DEBUG 1` que permite activar (o no) el modo de depuración vía el monitor Serial. Por defecto esta activado, con `0` se desactiva. 
+
+Además hay definidas algunas constantes útiles:
+
+- `MAX_ATTEMPTS` es un multiplicador de tiempo para dar por finalizado los intentos fallidos de conexión y lanzar el Captive Portal.
+- `RESET` se refiere al pin GPIO donde se encuentra conectado un pulsador *pull-down* para forzar el Captive Portal, por defecto es `GPIO04` / `G4` / `D2` (consulte el pinout de su placa).
 - `BLINK_TIME` es el tiempo entre destellos del *Status LED*.
 - `FLASH_LED` es el tiempo de encendido del *Status LED*.
 
-Las funciones incluidas son las siguientes:
+**`espSetupFunction.cpp`** gestiona distintas configuraciones mediante la función `espSetup()`. La misma se debe incluir dentro de *setup()* en el archivo pricipal, por ejemplo `myFirmware.ino`.
 
-- `void wifiConnect()` Maneja la conexión a la red WiFi
-- `void wifiAP()` Maneja el modo Soft-AP
-- `void handleRootGET()` Envía el Captive Portal
-- `void handleRootPOST()` Maneja las peticiones desde el browser
-- `void espSetup()` Configuraciones, incluir dentro de *setup()* en el archivo pricipal
-- `void espLoop()` Ejecuta funciones auxiliares, incluir dentro de *loop()* en el archivo pricipal
-- `void blinkLed()` Maneja el destello del *Status LED*, por defecto 100 ms cada 3 s.
+**`espLoopFunction.cpp`** contiene la función `espLoop()` que ejecuta funciones auxiliares. La misma se debe incluir dentro de *loop()* en el archivo pricipal, por ejemplo `myFirmware.ino`. Ademas incorpora la función `blinkLed()` que se encarga de manejar el destello del *Status LED*, por defecto 100 ms cada 3 segundos.
 
-El archivo `html.h` contiene el código HTML que se utiliza en el Captive Portal. Actualmente hay dos páginas embebidas:
+**`espWiFi.cpp`** contiene prácticamente todo el código relacionado a la conectividad WiFi. Se utilizan dos objetos *String* para almacenar las credenciales WiFi: `wifiSsid` para el SSID y `wifiPassword` para la contraseña. La función `wifiConnect()` es la que maneja la conexión a la red WiFi.
+
+**`espWebServer.cpp`** se encarga de generar una red WiFi mediante el modo Soft-AP del ESP, y servir las páginas del Captive Portal. Las funciones incluidas son las siguientes:
+
+- `wifiAP()` Maneja el modo Soft-AP
+- `handleRootGET()` Envía el Captive Portal
+- `handleRootPOST()` Maneja las peticiones desde el browser
+
+**`html.cpp`** contiene el código HTML que se utiliza en el Captive Portal. Actualmente hay dos páginas embebidas:
 
 - `htmlConfig` Captive Portal
 - `htmlSuccess` Mensaje luego de procesar el formulario
 
-El archivo `espEEPROM.h` contiene el código relacionado al manejo de la memoria EEPROM interna que se utiliza para almacenar los datos ingresados de manera permanente. Hay disponibles dos constantes que permiten seleccionar las direcciones de la memoria a utilizar: `SSID_ADDRESS` para el SSID y `PASS_ADDRESS` para la contraseña.
+**`espEEPROM.cpp`** contiene el código relacionado al manejo de la memoria EEPROM interna que se utiliza para almacenar los datos ingresados de manera permanente. Hay disponibles dos constantes que permiten seleccionar las direcciones de la memoria a utilizar: `SSID_ADDRESS` para el SSID y `PASS_ADDRESS` para la contraseña.
 
 Las funciones incluidas son las siguientes:
 
-- `void writeString(int address, const String &data)` Escribe un *String* en la dirección especificada
-- `String readString(int address)` Devuelve un *String* desde la dirección especificada
-- `void saveCredentials(const String &ssid, const String &password)` Almacena las credenciales WiFi
+- `readString(int address)` Devuelve un *String* desde la dirección especificada
+- `writeString(int address, const String &data)` Escribe un *String* en la dirección especificada
+- `saveCredentials(const String &ssid, const String &password)` Almacena las credenciales WiFi
 
 ## Ejemplo de uso
 
 El siguiente código Arduino permite comenzar un proyecto centrándose unicamente en la lógica que deberá llevar adelante el dispositivo, sin preocuparse por la gestión de la conexión.
 
 ```Cpp
-#include "espSetup.h"
+// File myFirmware.ino
+
+#include "espWebCfg.h"
 
 void setup() {
   espSetup();
@@ -79,17 +93,22 @@ void loop() {
 
 ## Hardware
 
-Para las pruebas se utilizo una placa de prototipos [*NodeMCU*](https://es.wikipedia.org/wiki/NodeMCU) genérica, simplemente con un pulsador conectado en el `GPIO5`, según el siguiente diagrama de conexiones.
+Para las pruebas se utilizó una placa de prototipos [*NodeMCU*](https://es.wikipedia.org/wiki/NodeMCU) genérica, simplemente con un pulsador conectado en el `GPIO4`, según el siguiente diagrama de conexiones.
 
 ![Diagrama esquemático](./docs/NodeMCU_schematic.png)
 
 ## ToDo
 
-- [ ] Agregar soporte para micros ESP32
+- [x] Agregar soporte para SoC ESP32
 - [ ] ¿Agregar soporte para Raspberry Pi Pico W?
 - [ ] Validar los datos ingresados mediante los campos del formulario
 - [x] Mejorar el diseño del portal HTML
 - [ ] Documentar variantes de hardware
+- [ ] Realizar pruebas de funcionamiento
+
+## Problemas conocidos
+
+- [x] No se está escribiendo el SSID en el monitor. `espWiFi.cpp`, linea 28. 
 
 ## Recursos
 

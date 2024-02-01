@@ -1,10 +1,10 @@
 /*
-    Simple Portal Web para ESP8266
+    Simple Portal Web para ESP8266/ESP32
     Permite configurar fácilmente el acceso a una red WiFi a un dispositivo IoT
     La IP por defecto para conectarse es 192.168.4.1
 */
 
-#include "./include/espSetup.h"
+#include "espWebCfg.h"
 
 void setup() {
 
