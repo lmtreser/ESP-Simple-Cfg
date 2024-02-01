@@ -25,7 +25,7 @@ void wifiConnect() {
 
 #if ENABLE_DEBUG
   Serial.println("Ejecutando en modo STA");
-  Serial.println("Intentando conectar al SSID: " + wifiSsid + "con la Password: " + wifiPassword);
+  Serial.println("Intentando conectar al SSID: " + wifiSsid + " con la password: " + wifiPassword);
 #endif
 
   // Intentar conectar a WiFi (durante 5 segundos)
