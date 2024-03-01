@@ -1,0 +1,76 @@
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 300px;
+        margin: 10px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .container svg {
+        margin-left: 75px;
+        width: 50%;
+    }
+
+    .icon-checkmark circle {
+        fill: #EC3434;
+    }
+
+    .error-message__title {
+        color: #EC3434;
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .red-info {
+        font-size: 12px;
+        padding-top: 20px;
+    }
+
+    button {
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-top: 2px;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<!DOCTYPE html>
+<html lang="es">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>WiFi Configuration</title>
+    </head>
+
+    <body>
+        <div class="container">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="40" fill="#e74c3c" />
+                <line x1="30" y1="30" x2="70" y2="70" stroke="#fff" stroke-width="8" />
+                <line x1="30" y1="70" x2="70" y2="30" stroke="#fff" stroke-width="8" />
+            </svg>
+            <h1 class="error-message__title">Error al conectar!</h1>
+            <p class="red-info"><b>Descripción del error: </b> Password erroneo</p>
+            <button type="submit" value='Home'>Reitentar</button>
+        </div>
+    </body>
+
+</html>

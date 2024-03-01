@@ -1,0 +1,97 @@
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 320px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    img {
+        margin-left: 60px;
+        width: 60%;
+
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        margin-bottom: 8px;
+    }
+
+    input {
+        padding: 8px;
+        margin-bottom: 16px;
+        margin-top: 2px;
+    }
+
+    select {
+        padding: 8px;
+        margin-bottom: 16px;
+        margin-top: 2px;
+    }
+
+    button {
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        margin-top: 2px;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<!DOCTYPE html>
+<html lang="es">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>WiFi Configuration</title>
+    </head>
+
+    <body>
+        <div class="container">
+            <img alt="logo" src="data:image/octet-stream;base64,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"/>
+            <form method=\post\ action=\/submit\>
+                <label for="ssid">Red:</label>
+
+                <select id="ssid" name="ssid" name=\dropdown\>
+                    <option value="red1" selected>Red #1</option>
+                    <option value="red2">Red #2</option>
+                    <option value="red3">Red #3</option>
+                    <option value="red4">Red #4</option>
+                    <!--  %s  Aqui va la variable que lista las redes disponibles -->
+                </select>
+
+                <input type="text" placeholder="Ingrese el SSID solo si es red oculta" id="ssid"
+                    name="ssid">
+
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password">
+
+                <button type="submit" value='OK'>Conectar</button>
+
+                <button type="submit" value='Refresh'>Resetear</button>
+            </form>
+        </div>
+    </body>
+
+</html>
